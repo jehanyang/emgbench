@@ -40,7 +40,7 @@ def evaluate_model_tpr_at_fpr(model, loader, device, num_classes, fpr_targets=[0
     tprs_at_fixed_fprs = {f"FPR {int(fpr*100)}%": [] for fpr in fpr_targets}
 
     # Iterate over each class
-    for class_index in range(num_classes):
+    for class_index in range(true_labels.shape[1]):
         y_true_class = true_labels[:, class_index]
         y_scores_class = predictions[:, class_index]
         
@@ -85,7 +85,7 @@ def evaluate_model_fpr_at_tpr(model, loader, device, num_classes, tpr_targets=[0
     fprs_at_fixed_tprs = {f"TPR {int(tpr*100)}%": [] for tpr in tpr_targets}
 
     # Iterate over each class
-    for class_index in range(num_classes):
+    for class_index in range(true_labels.shape[1]):
         y_true_class = true_labels[:, class_index]
         y_scores_class = predictions[:, class_index]
         
