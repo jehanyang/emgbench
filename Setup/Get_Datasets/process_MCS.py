@@ -140,41 +140,45 @@ for i in range(1, 41):
         print(f"File {hdf5_input_filename} not found. Skipping...")
         continue
     # Open the existing HDF5 file to read
-    with h5py.File(hdf5_input_filename, 'r') as hdf_read:
-        try: 
-            print(f"Attempting to create file {hdf5_output_filename}")
-            # Open a new HDF5 file to write reprocessed data
-            with h5py.File(hdf5_output_filename, 'w') as hdf_write:
-                
-                # Iterate through each gesture (assuming 10 gestures)
-                for gesture in range(10):
-                    all_cycles_data = []  # List to hold data from all cycles for this gesture
+    try:
+        hdf5_output_file = h5py.File(hdf5_output_filename, 'r')  
+        print(f"File {hdf5_output_filename} exists.")
+    except FileNotFoundError:
+        print(f"File {hdf5_output_filename} not found. Reprocessing data...")
 
-                    # Collect data from each cycle for this gesture
-                    for rep in range(1, 6):  # Assuming 5 cycles, named as 'Cycle1', 'Cycle2', ...
-                        cycle_group_name = f'Cycle{rep}/Gesture{gesture_names[gesture]}'
-                        if cycle_group_name in hdf_read:
-                            # Read and append the data
-                            cycle_data = hdf_read[cycle_group_name]['sEMG'][:]
-                            all_cycles_data.append(cycle_data)
+        with h5py.File(hdf5_input_filename, 'r') as hdf_read:
+            try: 
+                print(f"Attempting to create file {hdf5_output_filename}")
+                # Open a new HDF5 file to write reprocessed data
+                with h5py.File(hdf5_output_filename, 'w') as hdf_write:
+                    
+                    # Iterate through each gesture (assuming 10 gestures)
+                    for gesture in range(10):
+                        all_cycles_data = []  # List to hold data from all cycles for this gesture
 
-                    # Aggregate all cycles data into a single array (CYCLE, CHANNELS, TIME)
-                    # hdf5 keys are named as 'Gesture{gesture_name}'    
-                    if all_cycles_data:  # Ensure there is data to process
-                        aggregated_data = np.stack(all_cycles_data, axis=0)  # Stack along new axis for cycles
+                        # Collect data from each cycle for this gesture
+                        for rep in range(1, 6):  # Assuming 5 cycles, named as 'Cycle1', 'Cycle2', ...
+                            cycle_group_name = f'Cycle{rep}/Gesture{gesture_names[gesture]}'
+                            if cycle_group_name in hdf_read:
+                                # Read and append the data
+                                cycle_data = hdf_read[cycle_group_name]['sEMG'][:]
+                                all_cycles_data.append(cycle_data)
 
-                        # Write the aggregated data to the new file
-                        hdf_write.create_dataset(f'Gesture{gesture_names[gesture]}', data=aggregated_data, compression="gzip")
-        except FileExistsError as e:
-            print(f"File {hdf5_output_filename} already exists. Skipping...")
-            continue
-        except Exception as e:
-            print(f"An unexpected error occurred: {e}")
-            continue
-            
-            
+                        # Aggregate all cycles data into a single array (CYCLE, CHANNELS, TIME)
+                        # hdf5 keys are named as 'Gesture{gesture_name}'    
+                        if all_cycles_data:  # Ensure there is data to process
+                            aggregated_data = np.stack(all_cycles_data, axis=0)  # Stack along new axis for cycles
 
-    print(f"Reprocessed data saved in {hdf5_output_filename}.")
+                            # Write the aggregated data to the new file
+                            hdf_write.create_dataset(f'Gesture{gesture_names[gesture]}', data=aggregated_data, compression="gzip")
+            except FileExistsError as e:
+                print(f"File {hdf5_output_filename} already exists. Skipping...")
+                continue
+            except Exception as e:
+                print(f"An unexpected error occurred: {e}")
+                continue
+
+        print(f"Reprocessed data saved in {hdf5_output_filename}.")
 
 
 gesture_names = ['Rest', 'Extension', 'Flexion', 'Ulnar_Deviation', 'Radial_Deviation', 'Grip', 'Abduction', 'Adduction', 'Supination', 'Pronation']
