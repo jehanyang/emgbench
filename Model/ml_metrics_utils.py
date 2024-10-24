@@ -29,6 +29,9 @@ def evaluate_model_tpr_at_fpr(model, loader, device, num_classes, fpr_targets=[0
                 outputs, features = outputs
             if isinstance(outputs, dict):
                 outputs = outputs['logits']
+            if len(outputs.shape) == 1:
+                # outputs = outputs.unsqueeze(dim=0)
+                continue
             probs = softmax(outputs).cpu().numpy()  # Get class probabilities
             predictions.append(probs)
             true_labels.append(Y_batch.cpu().numpy())
@@ -74,6 +77,9 @@ def evaluate_model_fpr_at_tpr(model, loader, device, num_classes, tpr_targets=[0
                 outputs, features = outputs
             if isinstance(outputs, dict):
                 outputs = outputs['logits']
+            if len(outputs.shape) == 1:
+                # outputs = outputs.unsqueeze(dim=0)
+                continue
             probs = softmax(outputs).cpu().numpy()  # Get class probabilities
             predictions.append(probs)
             true_labels.append(Y_batch.cpu().numpy())
@@ -112,6 +118,9 @@ def evaluate_confidence_thresholding(model, loader, device, thresholds=[0.5, 0.9
                 outputs, features = outputs
             if isinstance(outputs, dict):
                 outputs = outputs['logits']
+            if len(outputs.shape) == 1:
+                # outputs = outputs.unsqueeze(dim=0)
+                continue
             probs = softmax(outputs)
             max_probs, preds = torch.max(probs, dim=1)
 
@@ -157,6 +166,9 @@ def evaluate_model_on_test_set(model, test_loader, device, numGestures, criterio
                 output, features = output
             if isinstance(output, dict):
                 output = output['logits']
+            if len(output.shape) == 1:
+                # output = output.unsqueeze(dim=0)
+                continue
             pred.extend(torch.argmax(output, dim=1).cpu().detach().numpy())
             true.extend(Y_batch_long.cpu().detach().numpy())
 
