@@ -181,6 +181,9 @@ def evaluate_model_on_test_set(model, test_loader, device, numGestures, criterio
         Y_test = torch.cat(Y_test, dim=0).to(device)
         Y_test = torch.argmax(Y_test, dim=1)
 
+        # truncate the outputs to the length of the true labels
+        outputs_all = outputs_all[:len(true)]
+        Y_test = Y_test[:len(true)]
 
         for test_metric in testing_metrics:
             if test_metric.name != "Macro_AUROC" and test_metric.name != "Macro_AUPRC":
