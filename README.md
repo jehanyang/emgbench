@@ -1,7 +1,7 @@
 <div align="center">
   <img width="500px" src="imgs/logo.png"/>
   
-  # EMGBench: Benchmarking Out-of-Distribution Generalization and Adaptation for Electromyography
+  # Benchmarking Out-of-Distribution Generalization and Adaptation for Electromyography
   ## NeurIPS 2024 
 </div>
 
