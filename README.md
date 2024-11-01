@@ -1,7 +1,8 @@
 <div align="center">
   <img width="500px" src="imgs/logo.png"/>
   
-  # Benchmarking Out-of-Distribution Generalization and Adaptation for Electromyography
+  # EMGBench: Benchmarking Out-of-Distribution Generalization and Adaptation for Electromyography
+  ## NeurIPS 2024 
 </div>
 
 <div align="center">
@@ -19,7 +20,8 @@
 
 This is the official repo for the paper:  
 
-**[Benchmarking Out-of-Distribution Generalization and Adaptation for Electromyography](https://emgbench.github.io/)**  
+**[EMGBench: Benchmarking Out-of-Distribution Generalization and Adaptation for Electromyography](https://emgbench.github.io/)**  
+
 [Jehan Yang*](https://jehanyang.github.io/about/), [Maxwell Soh*](), [Vivianna Lieu](), [Douglas J. Weber](https://www.meche.engineering.cmu.edu/directory/bios/weber-douglas.html), [Zackory Erickson](https://zackory.com/)
 
 ## Table of Contents
