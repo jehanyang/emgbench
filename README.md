@@ -10,9 +10,9 @@
 </div> 
 
 <p align="left">
-<!--     <a href='http://arxiv.org/abs/2311.01455'>
+    <a href='https://arxiv.org/abs/2410.23625'>
       <img src='https://img.shields.io/badge/Paper-arXiv-green?style=plastic&logo=arXiv&logoColor=green' alt='Paper arXiv'>
-    </a> -->
+    </a>
     <a href='https://emgbench.github.io/'>
       <img src='https://img.shields.io/badge/Project-Page-blue?style=plastic&logo=Google%20chrome&logoColor=blue' alt='Project Page'>
     </a>
